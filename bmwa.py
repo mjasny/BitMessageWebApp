@@ -1,13 +1,13 @@
 from flask import Flask
-from flask import render_template
 app = Flask(__name__)
+app.config.from_object('config')
 
 @app.route('/')
 @app.route('/index')
 def index():
     user = { 'nickname': 'Matthias' } # fake user
     return render_template("index.html",
-        title = 'Home',
+        title = 'BitMessageWebApp',
         user = user)
 
 if __name__ == '__main__':
