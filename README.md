@@ -17,5 +17,7 @@ Chan-Address: BM-2cUoRzUeWh7sDz4iAozUUmB8nJq2Q4VRaN
 
 
 Changelog:
+v0.02:
+	+Added Small menu, api test sucessfull
 v0.01:
 	+First Version, no features only testing.
