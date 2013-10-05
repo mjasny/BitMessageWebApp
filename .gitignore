@@ -3,3 +3,7 @@
 bitmessagewebapp.nja
 
 
+# Python cache
+__pycache__
+
+
