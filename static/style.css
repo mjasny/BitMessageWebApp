@@ -1,4 +1,3 @@
-
 article, aside, figure, footer, header, hgroup, nav, section
 {
     display: block;
@@ -113,4 +112,43 @@ div#menuh li li li li:hover ul
 {display:block;}
 
 /* End CSS Drop Down Menu */
+
+table {
+  border-collapse: collapse;
+  border: none;
+  font: normal 14px helvetica, verdana, arial, sans-serif;
+  border-spacing: 1px;
+  }
+td, th {
+  border: 1px;
+  padding: .8em;
+  color: #6E6E6E;
+  }
+tbody td a {
+  background: transparent;
+  text-decoration: none;
+  color: #9F9F9F;
+  }
+tbody th a {
+  font: bold 11px helvetica, verdana, arial, sans-serif;
+  background: transparent;
+  text-decoration: none;
+  font-weight:normal;
+  color: #9F9F9F;
+  }
+tbody th {
+  vertical-align: top;
+  text-align: left;
+}
+tbody td {
+  vertical-align: top;
+  text-align: left;
+  }
+tbody tr:hover {
+  background: #0E0E0E;
+  }
+tbody tr:hover th,
+tbody tr.odd:hover th {
+  background: #0E0E0E;
+  }
 
