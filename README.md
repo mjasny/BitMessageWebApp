@@ -17,6 +17,8 @@ Chan-Address: BM-2cUoRzUeWh7sDz4iAozUUmB8nJq2Q4VRaN
 
 
 Changelog:
+v0.03:
+	+Inbox is working, but needs some customiziation
 v0.02:
 	+Added Small menu, api test sucessfull
 v0.01:
