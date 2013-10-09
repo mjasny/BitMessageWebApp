@@ -1,154 +1,80 @@
-article, aside, figure, footer, header, hgroup, nav, section
-{
-    display: block;
+#nav {
+    list-style: none;
+    font-weight: bold;
+    margin-bottom: 10px;
+    width: 100%;
+    text-align: center;
+    background-color: #FFFFFF;
+    height:38px;
 }
 
-#menuh-container
-	{
-	position: absolute;	
-	top: 0em;
-	left: 0em;
-	}
+#nav ul {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0;
+    width: 100%;
+}
 
-#menuh
-	{
-	font-size: small;
-	font-family: arial, helvetica, sans-serif;
-	width:100%;
-	float:left;
-	margin:0em;
-	margin-top: 0em;
-	}
-		
-#menuh a
-	{
-	text-align: center;
-	display:block;
-	border: 1px solid #0040FF;
-	white-space:nowrap;
-	margin:0;
-	padding: 0.3em;
-	}
-	
-#menuh a:link, #menuh a:visited, #menuh a:active	/* menu at rest */
-	{
-	color: white;
-	background-color: #0040FF;		/* royal blue */
-	text-decoration:none;
-	}
-	
-#menuh a:hover						/* menu on mouse-over  */
-	{
-	color: white;
-	background-color: #668CFF;	/* cornflowerblue */
-	text-decoration:none;
-	}	
-	
-#menuh a.top_parent, #menuh a.top_parent:hover  /* attaches down-arrow to all top-parents */
-	{
-	background-image: url(navdown_white.gif);
-	background-position: right center;
-	background-repeat: no-repeat;
-	}
-	
-#menuh a.parent, #menuh a.parent:hover 	/* attaches side-arrow to all parents */
-	{
-	background-image: url(nav_white.gif);
-	background-position: right center;
-	background-repeat: no-repeat;
-	}
+#nav li {
+    margin: 0px;
+    display:
+}
 
-#menuh ul
-	{
-	list-style:none;
-	margin:0;
-	padding:0;
-	float:left;
-	width:9em;	/* width of all menu boxes */
-	/* NOTE: For adjustable menu boxes you can comment out the above width rule.
-	However, you will have to add padding in the "#menh a" rule so that the menu boxes
-	will have space on either side of the text -- try it */
-	}
+#nav li a {
+    padding: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    color: #000000;
+    background-color: #FFFFFF;
+    float: left
+}
 
-#menuh li
-	{
-	position:relative;
-	min-height: 1px;		/* Sophie Dennis contribution for IE7 */
-	vertical-align: bottom;		/* Sophie Dennis contribution for IE7 */
-	}
-
-#menuh ul ul
-	{
-	position:absolute;
-	z-index:500;
-	top:auto;
-	display:none;
-	padding: 1em;
-	margin:-1em 0 0 -1em;
-	}
-
-#menuh ul ul ul
-	{
-	top:0;
-	left:100%;
-	}
-
-div#menuh li:hover
-	{
-	cursor:pointer;
-	z-index:100;
-	}
-
-div#menuh li:hover ul ul,
-div#menuh li li:hover ul ul,
-div#menuh li li li:hover ul ul,
-div#menuh li li li li:hover ul ul
-{display:none;}
-
-div#menuh li:hover ul,
-div#menuh li li:hover ul,
-div#menuh li li li:hover ul,
-div#menuh li li li li:hover ul
-{display:block;}
-
-/* End CSS Drop Down Menu */
+#nav li a:hover {
+    color: #FFFFFF;
+    background-color: #3d84d2;
+}
 
 table {
-  border-collapse: collapse;
-  border: none;
-  font: normal 14px helvetica, verdana, arial, sans-serif;
-  border-spacing: 1px;
-  }
-td, th {
-  border: 1px;
-  padding: .8em;
-  color: #6E6E6E;
-  }
-tbody td a {
-  background: transparent;
-  text-decoration: none;
-  color: #9F9F9F;
-  }
-tbody th a {
-  font: bold 11px helvetica, verdana, arial, sans-serif;
-  background: transparent;
-  text-decoration: none;
-  font-weight:normal;
-  color: #9F9F9F;
-  }
-tbody th {
-  vertical-align: top;
-  text-align: left;
+background-color: #fff;
+border: 1px solid #ddd;
+empty-cells: show;
+font-size: 90%;
+margin: 0 0 0 0;
+padding: 4px;
+text-align: left;
+width: 100%;
 }
-tbody td {
-  vertical-align: top;
-  text-align: left;
-  }
-tbody tr:hover {
-  background: #0E0E0E;
-  }
-tbody tr:hover th,
-tbody tr.odd:hover th {
-  background: #0E0E0E;
-  }
+table caption {
+color: #777;
+margin: 0 0 5px 0;
+padding: 0;
+text-align: center;
+text-transform: uppercase;
+}
+table thead th {
+border: 0;
+border-bottom: 1px solid #ddd;
+color: #777;
+font-size: 90%;
+padding: 3px 0;
+margin: 0 0 5px 0;
+text-align: left;
+}
+table tbody tr.odd {
+background-color: #eff7ff;
+}
+table tbody tr.even {
+background-color: #fff;
+}
+table tbody tr:hover {
+background-color: #3d84d2;
+}
+table tbody td {
+color: #888;
+padding: 2px;
+border: 0;
+}
+table tbody tr:hover td {
+color: #fff;
+} 
 

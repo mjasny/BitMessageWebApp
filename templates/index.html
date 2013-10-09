@@ -11,8 +11,7 @@
         {% for message in messages %}
 
             <tr>
-                <td><a href="/view/{{ message.msgid }}">
-                                {{ message.subject }}</a></td>
+                <td><a href="/view/{{ message.msgid }}">{{ message.subject }}</a></td>
                 <td>{{ message.toAddress }}</td>
                 <td>{{ message.fromAddress }}</td>
             </tr>
