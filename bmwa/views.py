@@ -98,9 +98,3 @@ def view(msgid):
         #base64.b64decode(inboxMessages['inboxMessages'][i]
         #['subject'].encode('ascii')).decode('utf-8')+'</a>')
     #return render_template("inbox_show.html", data = data)
-
-
-if __name__ == '__main__':
-    app.debug = True
-    app.run(host='0.0.0.0', port=5000)
-
