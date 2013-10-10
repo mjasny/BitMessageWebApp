@@ -2,4 +2,4 @@
 
 from bmwa import app
 
-app.run(host='0.0.0.0', port=5000)
+app.run(host=app.config['APP_HOST'], port=app.config['APP_PORT'])
