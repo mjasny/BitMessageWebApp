@@ -27,6 +27,11 @@ def _b64decode(s):
     return base64.b64decode(s.encode('ascii')).decode('utf-8')
 
 
+def _b64encode(s):
+    """Helper function to encode base64 unicode."""
+    return base64.b64encode(s.encode('utf-8')).decode('ascii')
+
+
 def get_inbox_messages():
     """
     Returns a list of inbox messages in descending date order with strings
@@ -37,14 +42,25 @@ def get_inbox_messages():
     return list(reversed(messages))  # API returns in ascending date
 
 
+def _make_lookup(addresses):
+    dct = {}
+    for a in addresses:
+        dct[a['address']] = _b64decode(a['label'])
+    return dct
+
+
 def get_address_dict():
     """Returns a lookup dictionary between BitMessage addresses and labels."""
     proxy = _get_proxy()
     addresses = json.loads(proxy.listAddressBookEntries())['addresses']
-    address_dict = {}
-    for a in addresses:
-        address_dict[a['address']] = _b64decode(a['label'])
-    return address_dict
+    return _make_lookup(addresses)
+
+
+def get_identity_dict():
+    """Returns a lookup dictionary between BitMessage addresses and labels."""
+    proxy = _get_proxy()
+    addresses = json.loads(proxy.listAddresses2())['addresses']
+    return _make_lookup(addresses)
 
 
 def decode_and_format_messages(messages):
@@ -76,3 +92,10 @@ def get_inbox_message_by_id(msgid):
         proxy.getInboxMessageByID(msgid, True))['inboxMessage'][0]
     decode_and_format_message(message)
     return message
+
+
+def send_message(to_address, from_address, subject, message):
+    proxy = _get_proxy()
+    ackdata = proxy.sendMessage(to_address, from_address,
+                _b64encode(subject), _b64encode(message))
+    print(("ackdata: {}".format(ackdata)))

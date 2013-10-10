@@ -2,6 +2,8 @@
 
 DEBUG = True
 
+SECRET_KEY = '9/11 = INSIDE JOB | ae911truth.org'
+
 APP_HOST = "0.0.0.0"
 APP_PORT = 5000
 

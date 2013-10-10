@@ -2,6 +2,7 @@ from flask import abort, make_response, render_template, redirect
 
 from . import api
 from .core import app
+from .forms import SendForm
 
 
 MSGS_PER_PAGE = 20
@@ -46,6 +47,23 @@ def view(msgid):
     message = api.get_inbox_message_by_id(msgid)
 
     return render_template("view.html", message=message)
+
+
+@app.route('/send', methods=['GET', 'POST'])
+def send():
+    form = SendForm()
+    # Have to get addresses again because form validates against them.
+    form.from_address.choices = [(k, v) for
+                (k, v) in sorted(api.get_identity_dict().items())]
+    form.to_address.choices = [(k, v) for
+                (k, v) in sorted(api.get_address_dict().items())]
+
+    if form.validate_on_submit():
+        api.send_message(form.to_address.data, form.from_address.data,
+                    form.subject.data, form.message.data)
+        return redirect('/inbox')
+
+    return render_template('send.html', form=form)
 
 
 #@app.route('/inbox_show')

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <h1>Send Message</h1>
+    <form action="" method="post" name="send">
+        {{ form.hidden_tag() }}
+        <table>
+            <tr>
+                <th>{{ form.from_address.label }}</th>
+                <td>{{ form.from_address }}</td>
+            </tr>
+            <tr>
+                <th>{{ form.to_address.label }}</th>
+                <td>{{ form.to_address }}</td>
+            </tr>
+            <tr>
+                <th>{{ form.subject.label }}</th>
+                <td>{{ form.subject }}</td>
+            </tr>
+        </table>
+        <div id="message-body">
+            {{ form.message }}
+        </div>
+        <input type="submit" value="Send">
+    </form>
+{% endblock %}
