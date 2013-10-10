@@ -1,26 +1,10 @@
-#!/usr/bin/env python3
-
-import base64
-from datetime import datetime
-import json
-import xmlrpc.client
-
 from flask import abort, make_response, render_template, redirect
 
+from . import api
 from .core import app
 
 
-#app = Flask(__name__)
-#app.config.from_object('config')
-
-CONN_STRING = "http://%s:%s@%s:%d" % (app.config['API_USER'],
-    app.config['API_PASSWD'], app.config['API_HOST'], app.config['API_PORT'])
 MSGS_PER_PAGE = 20
-
-
-def _b64decode(s):
-    """Helper function to decode base64 unicode."""
-    return base64.b64decode(s.encode('ascii')).decode('utf-8')
 
 
 @app.route('/')
@@ -32,9 +16,7 @@ def index():
 @app.route('/inbox/page/<int:page>')
 def inbox(page):
     """View for inbox messages."""
-    api = xmlrpc.client.ServerProxy(CONN_STRING)
-    messages = json.loads(api.getAllInboxMessages())['inboxMessages']
-    messages = list(reversed(messages))  # API returns in ascending date
+    messages = api.get_inbox_messages()
     mtotal = len(messages)
 
     page_count = 1 + mtotal // MSGS_PER_PAGE
@@ -45,17 +27,7 @@ def inbox(page):
     mstop = min(mstop, mtotal)
     msgs_slice = messages[mstart: mstop]
 
-    addresses = json.loads(api.listAddressBookEntries())['addresses']
-    address_dict = {}  # create lookup for bitmessage address labels
-    for a in addresses:
-        address_dict[a['address']] = _b64decode(a['label'])
-
-    for m in msgs_slice:  # decode text and assign address labels if found
-        m['subject'] = _b64decode(m['subject'])
-        m['fromAddress'] = address_dict.get(m['fromAddress'], m['fromAddress'])
-        m['toAddress'] = address_dict.get(m['toAddress'], m['toAddress'])
-        m['received'] = datetime.fromtimestamp(
-            int(m['receivedTime'])).strftime('%Y-%m-%d %H:%M:%S')
+    api.decode_and_format_messages(msgs_slice)
 
     response = make_response(render_template("inbox.html",
             messages=msgs_slice, page=page, page_count=page_count,
@@ -71,11 +43,7 @@ def inbox(page):
 @app.route('/view/<msgid>')
 def view(msgid):
     """View to display an inbox message."""
-    api = xmlrpc.client.ServerProxy(CONN_STRING)
-    message = json.loads(  # boolean marks message as read
-        api.getInboxMessageByID(msgid, True))['inboxMessage'][0]
-    message['subject'] = _b64decode(message['subject'])
-    message['message'] = _b64decode(message['message'])
+    message = api.get_inbox_message_by_id(msgid)
 
     return render_template("view.html", message=message)
 
