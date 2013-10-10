@@ -1,0 +1,24 @@
+{% macro render_inbox_page_nav(page, page_count, mstart, mstop, mtotal) %}
+    <div class="inbox-page-nav">
+        <span class="inbox-showing">
+            Showing {{ mstart + 1 }} to {{ mstop }} of {{ mtotal }}.
+        </span>
+        {% if page > 1 %}
+            <span class="inbox-first>">
+                <a href="/inbox">&laquo; first</a>
+            </span>
+            <span class="inbox-prev>">
+                <a href="/inbox/page/{{ page - 1 }}">&lt; prev</a>
+            </span>
+        {% endif %}
+        {% if page < page_count %}
+            <span class="inbox-next>">
+                <a href="/inbox/page/{{ page + 1 }}">next &gt;</a>
+            </span>
+            <span class="inbox-last>">
+                <a href="/inbox/page/{{ page_count }}">last &raquo;</a>
+            </span>
+        {% endif %}
+    </div>
+{% endmacro %}
+

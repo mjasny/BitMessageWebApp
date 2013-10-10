@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <div id="message-view">
+        <table>
+            <tr>
+                <th>Subject:</th>
+                <td>{{ message.subject }}</td>
+            </tr>
+            <tr>
+                <th>To:</th>
+                <td>{{ message.toAddress }}</td>
+            </tr>
+            <tr>
+                <th>From:</th>
+                <td>{{ message.fromAddress }}</td>
+            </tr>
+        </table>
+
+        <pre>
+{{ message.message }}
+        </pre>
+    </div>
+{% endblock %}
