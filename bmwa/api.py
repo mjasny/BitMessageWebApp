@@ -41,6 +41,15 @@ def get_inbox_messages():
     messages = json.loads(proxy.getAllInboxMessages())['inboxMessages']
     return list(reversed(messages))  # API returns in ascending date
 
+def get_outbox_messages():
+    """
+    Returns a list of inbox messages in descending date order with strings
+    not yet decoded.
+    """
+    proxy = _get_proxy()
+    messages = json.loads(proxy.getAllSentMessages())['sentMessages']
+    return list(reversed(messages))  # API returns in ascending date
+
 
 def _make_lookup(addresses):
     dct = {}
@@ -69,6 +78,12 @@ def decode_and_format_messages(messages):
     for m in messages:
         decode_and_format_message(m, address_dict)
 
+def decode_and_format_outbox_messages(messages):
+    """Decodes a sequence of messages."""
+    address_dict = get_address_dict()
+    for m in messages:
+        decode_and_format_outbox_message(m, address_dict)
+
 
 def decode_and_format_message(message, address_dict=None):
     """Decode text and assign address labels if found."""
@@ -84,6 +99,22 @@ def decode_and_format_message(message, address_dict=None):
     message['received'] = datetime.fromtimestamp(
         int(message['receivedTime'])).strftime('%Y-%m-%d %H:%M:%S')
 
+def decode_and_format_outbox_message(message, address_dict=None):
+    """Decode text and assign address labels if found."""
+    if address_dict is None:
+        address_dict = get_address_dict()
+
+    message['subject'] = _b64decode(message['subject'])
+    message['message'] = _b64decode(message['message'])
+    message['fromAddress'] = address_dict.get(
+                            message['fromAddress'], message['fromAddress'])
+    message['toAddress'] = address_dict.get(
+                            message['toAddress'], message['toAddress'])
+    message['lastActionTime'] = datetime.fromtimestamp(
+        int(message['lastActionTime'])).strftime('%Y-%m-%d %H:%M:%S')
+    message['status'] = address_dict.get(
+                            message['status'], message['status'])
+
 
 def get_inbox_message_by_id(msgid):
     """Retrieves and decodes a message."""
@@ -91,6 +122,14 @@ def get_inbox_message_by_id(msgid):
     message = json.loads(  # boolean marks message as read
         proxy.getInboxMessageByID(msgid, True))['inboxMessage'][0]
     decode_and_format_message(message)
+    return message
+
+def get_outbox_message_by_id(msgid):
+    """Retrieves and decodes a message."""
+    proxy = _get_proxy()
+    message = json.loads(  # boolean marks message as read
+        proxy.getInboxMessageByID(msgid, True))['sentMessages'][0]
+    decode_and_format_outbox_message(message)
     return message
 
 

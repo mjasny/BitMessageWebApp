@@ -1,0 +1,38 @@
+{% from "_helpers.html" import render_outbox_page_nav %}
+
+{% extends "base.html" %}
+
+{% block body %}
+
+    {{ render_outbox_page_nav(page, page_count, mstart, mstop, mtotal) }}
+
+    <table id="status-table">
+        <tr>
+            <th>Subject</th>
+            <th>To</th>
+            <th>From</th>
+            <th>LastAction</th>
+	    <th>Status</th>
+        </tr>
+
+        {% for message in messages %}
+
+            <tr>
+                <td><a href="/view/{{ message.msgid }}">
+                    {% if message.read %}
+                        {{ message.subject }}
+                    {% else %}
+                        <strong>{{ message.subject }}</strong>
+                    {% endif %}
+                </a></td>
+                <td>{{ message.toAddress }}</td>
+                <td>{{ message.fromAddress }}</td>
+                <td>{{ message.lastActionTime }}</td>
+		<td>{{ message.status }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    {{ render_outbox_page_nav(page, page_count, mstart, mstop, mtotal) }}
+
+{% endblock %}
