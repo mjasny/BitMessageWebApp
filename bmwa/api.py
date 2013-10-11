@@ -128,7 +128,7 @@ def get_outbox_message_by_id(msgid):
     """Retrieves and decodes a message."""
     proxy = _get_proxy()
     message = json.loads(  # boolean marks message as read
-        proxy.getInboxMessageByID(msgid, True))['sentMessages'][0]
+        proxy.getSentMessageByID(msgid, True))['sentMessage'][0]
     decode_and_format_outbox_message(message)
     return message
 

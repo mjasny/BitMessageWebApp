@@ -17,7 +17,7 @@
         {% for message in messages %}
 
             <tr>
-                <td><a href="/view/{{ message.msgid }}">
+                <td><a href="/viewinbox/{{ message.msgid }}">
                     {% if message.read %}
                         {{ message.subject }}
                     {% else %}

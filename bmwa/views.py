@@ -66,12 +66,17 @@ def outbox(page):
 
     return response
 
-
-
-@app.route('/view/<msgid>')
-def view(msgid):
+@app.route('/viewinbox/<msgid>')
+def viewinbox(msgid):
     """View to display an inbox message."""
     message = api.get_inbox_message_by_id(msgid)
+
+    return render_template("view.html", message=message)
+
+@app.route('/viewoutbox/<msgid>')
+def viewoutbox(msgid):
+    """View to display an outbox message."""
+    message = api.get_outbox_message_by_id(msgid)
 
     return render_template("view.html", message=message)
 
