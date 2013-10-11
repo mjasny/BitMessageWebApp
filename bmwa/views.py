@@ -65,6 +65,9 @@ def send():
 
     return render_template('send.html', form=form)
 
+@app.route('/dev')
+def dev():
+    return render_template('dev.html')
 
 #@app.route('/inbox_show')
 #def index_show():

@@ -9,5 +9,5 @@ APP_PORT = 5000
 
 API_USER = 'matthias'
 API_PASSWD = 'password'
-API_HOST = 'localhost'
+API_HOST = '192.168.178.5'
 API_PORT = 8442
