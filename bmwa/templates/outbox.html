@@ -3,7 +3,7 @@
 {% extends "base.html" %}
 
 {% block body %}
-
+    <h1>Outbox</h1>
     {{ render_outbox_page_nav(page, page_count, mstart, mstop, mtotal) }}
 
     <table id="status-table">
@@ -18,13 +18,7 @@
         {% for message in messages %}
 
             <tr>
-                <td><a href="/viewoutbox/{{ message.msgid }}">
-                    {% if message.read %}
-                        {{ message.subject }}
-                    {% else %}
-                        <strong>{{ message.subject }}</strong>
-                    {% endif %}
-                </a></td>
+                <td>{{ message.subject }}</td>
                 <td>{{ message.toAddress }}</td>
                 <td>{{ message.fromAddress }}</td>
                 <td>{{ message.lastActionTime }}</td>

@@ -46,3 +46,27 @@
     </div>
 {% endmacro %}
 
+{% macro render_addressbook_page_nav(page, page_count, astart, astop, atotal) %}
+    <div class="addressbook-page-nav">
+        <span class="addressbook-showing">
+            Showing {{ astart + 1 }} to {{ astop }} of {{ atotal }}.
+        </span>
+        {% if page > 1 %}
+            <span class="addressbook-first>">
+                <a href="/addressbook">&laquo; first</a>
+            </span>
+            <span class="addressbook-prev>">
+                <a href="/addressbook/page/{{ page - 1 }}">&lt; prev</a>
+            </span>
+        {% endif %}
+        {% if page < page_count %}
+            <span class="addressbook-next>">
+                <a href="/addressbook/page/{{ page + 1 }}">next &gt;</a>
+            </span>
+            <span class="addressbook-last>">
+                <a href="/addressbook/page/{{ page_count }}">last &raquo;</a>
+            </span>
+        {% endif %}
+    </div>
+{% endmacro %}
+

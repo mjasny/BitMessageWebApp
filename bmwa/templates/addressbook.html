@@ -1,0 +1,25 @@
+{% from "_helpers.html" import render_addressbook_page_nav %}
+
+{% extends "base.html" %}
+
+{% block body %}
+    <h1>Addressbook</h1>
+    {{ render_addressbook_page_nav(page, page_count, astart, astop, atotal) }}
+
+    <table id="addressbook-table">
+        <tr>
+            <th>Name or Label</th>
+            <th>Address</th>
+        </tr>
+
+        {% for address in addresses %}
+            <tr>
+                <td>{{ address.label }}</td>
+                <td>{{ address.address }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    {{ render_addressbook_page_nav(page, page_count, astart, astop, atotal) }}
+    
+{% endblock %}

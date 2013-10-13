@@ -1,44 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
 <head>
   <meta charset="utf-8" />
   <title>BitMessage Web App</title>
   <link rel="stylesheet" href="/static/style.css" />
 </head>
 
-
 <body>
-
   <header>
-
-<div id="nav">
+  <div id="nav">
     <ul>
         <li><a href="/">Inbox</a></li>
         <li><a href="/send">Send</a></li>
+	<li><a href="/addressbook">Addressbook</a></li>
         <li><a href="/outbox">Outbox</a></li>
 	<li><a href="/dev">[Dev]</a></li>
     </ul>
-</div>
-
-    <hgroup>
-      <h1>BitMessage Web App</h1>
-      <h2>Web view of BitMessage JSON-RPC interface for viewing and sending
-          messages.</h2>
-    </hgroup>
+  </div>
   </header>
 
 
   {% block body %}{% endblock %}
 
-
   <footer>
-
-
-    <p><a href="https://github.com/Mattze96/BitMessageWebApp">
-            Project Web Page</a></p>
-
+    <p><a href="https://github.com/Mattze96/BitMessageWebApp">Project Web Page</a></p>
   </footer>
 
 </body>
