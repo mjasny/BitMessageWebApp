@@ -98,8 +98,7 @@ def decode_and_format_outbox_messages(messages):
         decode_and_format_outbox_message(m, address_dict)
 
 
-def decode_and_format_message(message, address_dict=None):
-    """Decode text and assign address labels if found."""
+def _decode_message_common(message, address_dict=None):
     if address_dict is None:
         address_dict = get_address_dict()
 
@@ -109,21 +108,20 @@ def decode_and_format_message(message, address_dict=None):
                             message['fromAddress'], message['fromAddress'])
     message['toAddress'] = address_dict.get(
                             message['toAddress'], message['toAddress'])
+
+
+def decode_and_format_message(message, address_dict=None):
+    """Decode text and assign address labels if found."""
+    _decode_message_common(message, address_dict)
+
     message['received'] = datetime.fromtimestamp(
         int(message['receivedTime'])).strftime('%Y-%m-%d %H:%M:%S')
 
 
 def decode_and_format_outbox_message(message, address_dict=None):
     """Decode text and assign address labels if found."""
-    if address_dict is None:
-        address_dict = get_address_dict()
+    _decode_message_common(message, address_dict)
 
-    message['subject'] = _b64decode(message['subject'])
-    message['message'] = _b64decode(message['message'])
-    message['fromAddress'] = address_dict.get(
-                            message['fromAddress'], message['fromAddress'])
-    message['toAddress'] = address_dict.get(
-                            message['toAddress'], message['toAddress'])
     message['lastActionTime'] = datetime.fromtimestamp(
         int(message['lastActionTime'])).strftime('%Y-%m-%d %H:%M:%S')
 
