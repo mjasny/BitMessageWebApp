@@ -53,13 +53,14 @@ def get_outbox_messages():
 
 
 def get_addressbook_addresses():
-    """
-    Returns a list of inbox messages in descending date order with strings
-    not yet decoded.
+    """Returns a list of addressbook addresses in alphabetical order by label.
     """
     proxy = _get_proxy()
     addresses = json.loads(proxy.listAddressBookEntries())['addresses']
-    return list(reversed(addresses))  # API returns in ascending date
+    for a in addresses:
+        a['label'] = _b64decode(a['label'])
+
+    return list(sorted(addresses, key=lambda x: x['label']))
 
 
 def _make_lookup(addresses):
@@ -97,13 +98,6 @@ def decode_and_format_outbox_messages(messages):
         decode_and_format_outbox_message(m, address_dict)
 
 
-def decode_and_format_addresses(addresses):
-    """Decodes a sequence of addresses."""
-    address_dict = get_address_dict()
-    for a in addresses:
-        decode_and_format_addressbook_addresses(a, address_dict)
-
-
 def decode_and_format_message(message, address_dict=None):
     """Decode text and assign address labels if found."""
     if address_dict is None:
@@ -134,14 +128,6 @@ def decode_and_format_outbox_message(message, address_dict=None):
         int(message['lastActionTime'])).strftime('%Y-%m-%d %H:%M:%S')
     message['status'] = address_dict.get(
                             message['status'], message['status'])
-
-
-def decode_and_format_addressbook_addresses(address, address_dict=None):
-    """Decode text and assign address labels if found."""
-    if address_dict is None:
-        address_dict = get_address_dict()
-
-    address['label'] = _b64decode(address['label'])
 
 
 def get_inbox_message_by_id(msgid):

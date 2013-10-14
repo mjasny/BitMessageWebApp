@@ -116,8 +116,6 @@ def addressbook(page):
     astop = min(astop, atotal)
     addrsss_slice = addresses[astart: astop]
 
-    api. decode_and_format_addresses(addrsss_slice)
-
     response = make_response(render_template("addressbook.html",
             addresses=addrsss_slice, page=page, page_count=page_count,
             astart=astart, astop=astop, atotal=atotal))
