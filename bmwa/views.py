@@ -40,6 +40,7 @@ def inbox(page):
 
     return response
 
+
 @app.route('/outbox', defaults={'page': 1})
 @app.route('/outbox/page/<int:page>')
 def outbox(page):
@@ -66,12 +67,14 @@ def outbox(page):
 
     return response
 
+
 @app.route('/viewinbox/<msgid>')
 def viewinbox(msgid):
     """View to display an inbox message."""
     message = api.get_inbox_message_by_id(msgid)
 
     return render_template("view.html", message=message)
+
 
 @app.route('/viewoutbox/<msgid>')
 def viewoutbox(msgid):
@@ -96,6 +99,7 @@ def send():
         return redirect('/inbox')
 
     return render_template('send.html', form=form)
+
 
 @app.route('/addressbook', defaults={'page': 1})
 @app.route('/addressbook/page/<int:page>')

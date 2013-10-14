@@ -41,6 +41,7 @@ def get_inbox_messages():
     messages = json.loads(proxy.getAllInboxMessages())['inboxMessages']
     return list(reversed(messages))  # API returns in ascending date
 
+
 def get_outbox_messages():
     """
     Returns a list of inbox messages in descending date order with strings
@@ -50,6 +51,7 @@ def get_outbox_messages():
     messages = json.loads(proxy.getAllSentMessages())['sentMessages']
     return list(reversed(messages))  # API returns in ascending date
 
+
 def get_addressbook_addresses():
     """
     Returns a list of inbox messages in descending date order with strings
@@ -58,6 +60,7 @@ def get_addressbook_addresses():
     proxy = _get_proxy()
     addresses = json.loads(proxy.listAddressBookEntries())['addresses']
     return list(reversed(addresses))  # API returns in ascending date
+
 
 def _make_lookup(addresses):
     dct = {}
@@ -86,11 +89,13 @@ def decode_and_format_messages(messages):
     for m in messages:
         decode_and_format_message(m, address_dict)
 
+
 def decode_and_format_outbox_messages(messages):
     """Decodes a sequence of messages."""
     address_dict = get_address_dict()
     for m in messages:
         decode_and_format_outbox_message(m, address_dict)
+
 
 def decode_and_format_addresses(addresses):
     """Decodes a sequence of addresses."""
@@ -113,6 +118,7 @@ def decode_and_format_message(message, address_dict=None):
     message['received'] = datetime.fromtimestamp(
         int(message['receivedTime'])).strftime('%Y-%m-%d %H:%M:%S')
 
+
 def decode_and_format_outbox_message(message, address_dict=None):
     """Decode text and assign address labels if found."""
     if address_dict is None:
@@ -129,13 +135,14 @@ def decode_and_format_outbox_message(message, address_dict=None):
     message['status'] = address_dict.get(
                             message['status'], message['status'])
 
+
 def decode_and_format_addressbook_addresses(address, address_dict=None):
     """Decode text and assign address labels if found."""
     if address_dict is None:
         address_dict = get_address_dict()
 
-    #address['address'] = address_dict.get(address['address'], address['address'])
     address['label'] = _b64decode(address['label'])
+
 
 def get_inbox_message_by_id(msgid):
     """Retrieves and decodes a message."""
@@ -145,6 +152,7 @@ def get_inbox_message_by_id(msgid):
     decode_and_format_message(message)
     return message
 
+
 def get_outbox_message_by_id(msgid):
     """Retrieves and decodes a message."""
     proxy = _get_proxy()
@@ -152,6 +160,7 @@ def get_outbox_message_by_id(msgid):
         proxy.getSentMessageByID(msgid, True))['sentMessage'][0]
     decode_and_format_outbox_message(message)
     return message
+
 
 def send_message(to_address, from_address, subject, message):
     proxy = _get_proxy()
