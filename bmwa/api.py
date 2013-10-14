@@ -33,8 +33,7 @@ def _b64encode(s):
 
 
 def get_inbox_messages():
-    """
-    Returns a list of inbox messages in descending date order with strings
+    """Returns a list of inbox messages in descending date order with strings
     not yet decoded.
     """
     proxy = _get_proxy()
@@ -43,8 +42,7 @@ def get_inbox_messages():
 
 
 def get_outbox_messages():
-    """
-    Returns a list of inbox messages in descending date order with strings
+    """Returns a list of outbox messages in descending date order with strings
     not yet decoded.
     """
     proxy = _get_proxy()
@@ -99,6 +97,7 @@ def decode_and_format_outbox_messages(messages):
 
 
 def _decode_message_common(message, address_dict=None):
+    """Decodes headers common to inbox and outbox messages."""
     if address_dict is None:
         address_dict = get_address_dict()
 
