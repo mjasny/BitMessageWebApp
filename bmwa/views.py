@@ -41,7 +41,7 @@ def inbox(page):
     return response
 
 
-@app.route('/outbox', defaults={'page': 1})
+@app.route('/outbox/', defaults={'page': 1})
 @app.route('/outbox/page/<int:page>')
 def outbox(page):
     messages = api.get_outbox_messages()
