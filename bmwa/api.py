@@ -126,8 +126,6 @@ def decode_and_format_outbox_message(message, address_dict=None):
                             message['toAddress'], message['toAddress'])
     message['lastActionTime'] = datetime.fromtimestamp(
         int(message['lastActionTime'])).strftime('%Y-%m-%d %H:%M:%S')
-    message['status'] = address_dict.get(
-                            message['status'], message['status'])
 
 
 def get_inbox_message_by_id(msgid):
