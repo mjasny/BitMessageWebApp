@@ -145,6 +145,5 @@ def get_outbox_message_by_id(msgid):
 
 def send_message(to_address, from_address, subject, message):
     proxy = _get_proxy()
-    ackdata = proxy.sendMessage(to_address, from_address,
+    proxy.sendMessage(to_address, from_address,
                 _b64encode(subject), _b64encode(message))
-    print(("ackdata: {}".format(ackdata)))
