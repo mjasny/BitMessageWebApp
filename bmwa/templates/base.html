@@ -2,30 +2,31 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8" />
-  <title>BitMessage Web App</title>
-  <link rel="stylesheet" href="/static/style.css" />
+    <meta charset="utf-8" />
+    <title>BitMessage Web App</title>
+    <link rel="stylesheet" href="/static/style.css" />
 </head>
 
 <body>
-  <header>
-  <div id="nav">
-    <ul>
-        <li><a href="/">Inbox</a></li>
-        <li><a href="/send">Send</a></li>
-	<li><a href="/addressbook">Addressbook</a></li>
-        <li><a href="/outbox">Outbox</a></li>
-	<li><a href="/dev">[Dev]</a></li>
-    </ul>
-  </div>
-  </header>
+    <header>
+        <div id="nav">
+            <ul>
+                <li><a href="/">Inbox</a></li>
+                <li><a href="/send">Send</a></li>
+                <li><a href="/addressbook">Addressbook</a></li>
+                <li><a href="/outbox">Outbox</a></li>
+                <li><a href="/dev">[Dev]</a></li>
+            </ul>
+        </div>
+    </header>
 
 
-  {% block body %}{% endblock %}
+    {% block body %}{% endblock %}
 
-  <footer>
-    <p><a href="https://github.com/Mattze96/BitMessageWebApp">Project Web Page</a></p>
-  </footer>
+    <footer>
+        <p><a href="https://github.com/Mattze96/BitMessageWebApp">
+                Project Web Page</a></p>
+    </footer>
 
 </body>
 </html>
