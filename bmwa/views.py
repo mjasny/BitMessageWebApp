@@ -46,21 +46,18 @@ def inbox(page):
 @app.route('/outbox/page/<int:page>')
 def outbox(page):
     messages = api.get_outbox_messages()
-    mtotal = len(messages)
 
-    page_count = 1 + mtotal // MSGS_PER_PAGE
-    if page < 1 or page > page_count:
+    try:
+        pagination = Pagination(page, messages, MSGS_PER_PAGE)
+    except IndexError:
         abort(404)  # return not found for pages outside range
 
-    mstart, mstop = (page - 1) * MSGS_PER_PAGE, page * MSGS_PER_PAGE
-    mstop = min(mstop, mtotal)
-    msgs_slice = messages[mstart: mstop]
+    msgs_slice = pagination.get_slice()
 
     api.decode_and_format_outbox_messages(msgs_slice)
 
     return _no_cache(make_response(render_template("outbox.html",
-            messages=msgs_slice, page=page, page_count=page_count,
-            mstart=mstart, mstop=mstop, mtotal=mtotal)))
+            messages=msgs_slice, pagination=pagination)))
 
 
 @app.route('/viewinbox/<msgid>')
