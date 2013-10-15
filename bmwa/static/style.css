@@ -1,6 +1,6 @@
 @import url(reset.css);
 
-#nav {
+#main-nav {
     list-style: none;
     font-weight: bold;
     margin-bottom: 10px;
@@ -10,19 +10,19 @@
     height:38px;
 }
 
-#nav ul {
+#main-nav ul {
     list-style-type: none;
     margin: 0px;
     padding: 0;
     width: 100%;
 }
 
-#nav li {
+#main-nav li {
     margin: 0px;
     display:
 }
 
-#nav li a {
+#main-nav li a {
     padding: 10px;
     text-decoration: none;
     font-weight: bold;
@@ -31,7 +31,7 @@
     float: left
 }
 
-#nav li a:hover {
+#main-nav li a:hover {
     color: #FFFFFF;
     background-color: #3d84d2;
 }
@@ -78,5 +78,5 @@ border: 0;
 }
 table tbody tr:hover td {
 color: #fff;
-} 
+}
 
