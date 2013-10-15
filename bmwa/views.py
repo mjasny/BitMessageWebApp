@@ -3,6 +3,7 @@ from flask import abort, make_response, render_template, redirect
 from . import api
 from .core import app
 from .forms import SendForm
+from .pagination import Pagination
 
 
 MSGS_PER_PAGE = 20
@@ -18,21 +19,17 @@ def index():
 def inbox(page):
     """View for inbox messages."""
     messages = api.get_inbox_messages()
-    mtotal = len(messages)
 
-    page_count = 1 + mtotal // MSGS_PER_PAGE
-    if page < 1 or page > page_count:
+    try:
+        pagination = Pagination(page, messages, MSGS_PER_PAGE)
+    except IndexError:
         abort(404)  # return not found for pages outside range
 
-    mstart, mstop = (page - 1) * MSGS_PER_PAGE, page * MSGS_PER_PAGE
-    mstop = min(mstop, mtotal)
-    msgs_slice = messages[mstart: mstop]
-
+    msgs_slice = pagination.get_slice()
     api.decode_and_format_messages(msgs_slice)
 
     response = make_response(render_template("inbox.html",
-            messages=msgs_slice, page=page, page_count=page_count,
-            mstart=mstart, mstop=mstop, mtotal=mtotal))
+            messages=msgs_slice, pagination=pagination))
 
     response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
     response.headers['Expires'] = 0  # force reload so messages marked read

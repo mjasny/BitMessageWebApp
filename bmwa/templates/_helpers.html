@@ -1,24 +1,37 @@
-{% macro render_inbox_page_nav(page, page_count, mstart, mstop, mtotal) %}
-    <div class="inbox-page-nav">
-        <span class="inbox-showing">
-            Showing {{ mstart + 1 }} to {{ mstop }} of {{ mtotal }}.
+{% macro render_pagination(pagination) %}
+    <div class="pagination">
+        <span class="pagination-showing">
+            Showing {{ pagination.start + 1 }} to {{ pagination.stop }} of
+            {{ pagination.item_count }}.
         </span>
-        {% if page > 1 %}
-            <span class="inbox-first>">
-                <a href="/inbox">&laquo; first</a>
+        {% if pagination.has_prev %}
+            <span class="pagination-first>">
+                <a href="{{ url_for_pagination(1) }}">&laquo; first</a>
             </span>
-            <span class="inbox-prev>">
-                <a href="/inbox/page/{{ page - 1 }}">&lt; prev</a>
-            </span>
-        {% endif %}
-        {% if page < page_count %}
-            <span class="inbox-next>">
-                <a href="/inbox/page/{{ page + 1 }}">next &gt;</a>
-            </span>
-            <span class="inbox-last>">
-                <a href="/inbox/page/{{ page_count }}">last &raquo;</a>
+            <span class="pagination-prev>">
+                <a href="{{ url_for_pagination(pagination.page - 1) }}">
+                    &lt; prev</a>
             </span>
         {% endif %}
+        {% if pagination.has_next %}
+            <span class="pagination-next>">
+                <a href="{{ url_for_pagination(pagination.page + 1) }}">
+                    next &gt;</a>
+            </span>
+            <span class="pagination-last>">
+                <a href="{{ url_for_pagination(pagination.page_count) }}">
+                    last &raquo;</a>
+            </span>
+        {% endif %}
+        <span class="pagination-nearby">
+        {% for page in pagination.iter_nearby_pages() %}
+            {% if page == pagination.page %}
+                <strong>{{ page }}</strong>
+            {% else %}
+                <a href="{{ url_for_pagination(page) }}">{{ page }}</a>
+            {% endif %}
+        {% endfor %}
+        </span>
     </div>
 {% endmacro %}
 

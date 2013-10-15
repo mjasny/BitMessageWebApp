@@ -1,10 +1,10 @@
-{% from "_helpers.html" import render_inbox_page_nav %}
+{% from "_helpers.html" import render_pagination %}
 
 {% extends "base.html" %}
 
 {% block body %}
     <h1>Inbox</h1>
-    {{ render_inbox_page_nav(page, page_count, mstart, mstop, mtotal) }}
+    {{ render_pagination(pagination) }}
 
     <table id="inbox-table">
         <tr>
@@ -17,7 +17,7 @@
         {% for message in messages %}
 
             <tr>
-                <td><a href="/viewinbox/{{ message.msgid }}">
+                <td><a href="{{ url_for('viewinbox', msgid=message.msgid) }}">
                     {% if message.read %}
                         {{ message.subject }}
                     {% else %}
@@ -31,6 +31,6 @@
         {% endfor %}
     </table>
 
-    {{ render_inbox_page_nav(page, page_count, mstart, mstop, mtotal) }}
+    {{ render_pagination(pagination) }}
 
 {% endblock %}
