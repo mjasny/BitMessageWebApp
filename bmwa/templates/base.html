@@ -4,18 +4,17 @@
 <head>
     <meta charset="utf-8" />
     <title>BitMessage Web App</title>
-    <link rel="stylesheet" href="/static/style.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 </head>
 
 <body>
     <header>
         <nav id="main-nav">
             <ul>
-                <li><a href="/">Inbox</a></li>
-                <li><a href="/send">Send</a></li>
-                <li><a href="/addressbook">Addressbook</a></li>
-                <li><a href="/outbox">Outbox</a></li>
-                <li><a href="/dev">[Dev]</a></li>
+                <li><a href="{{ url_for('inbox') }}">Inbox</a></li>
+                <li><a href="{{ url_for('send') }}">Send</a></li>
+                <li><a href="{{ url_for('addressbook') }}">Addressbook</a></li>
+                <li><a href="{{ url_for('outbox') }}">Outbox</a></li>
             </ul>
         </nav>
     </header>
