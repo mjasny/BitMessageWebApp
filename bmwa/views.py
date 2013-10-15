@@ -10,6 +10,15 @@ MSGS_PER_PAGE = 20
 ADDRS_PER_PAGE = 30
 
 
+def _no_cache(response):
+    """Mark a response to never be cached by browser and return it."""
+    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response.headers['Expires'] = 0
+    response.headers['Pragma'] = 'no-cache'
+
+    return response
+
+
 @app.route('/')
 def index():
     return redirect('/inbox')
@@ -29,14 +38,8 @@ def inbox(page):
     msgs_slice = pagination.get_slice()
     api.decode_and_format_messages(msgs_slice)
 
-    response = make_response(render_template("inbox.html",
-            messages=msgs_slice, pagination=pagination))
-
-    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
-    response.headers['Expires'] = 0  # force reload so messages marked read
-    response.headers['Pragma'] = 'no-cache'
-
-    return response
+    return _no_cache(make_response(render_template("inbox.html",
+            messages=msgs_slice, pagination=pagination)))
 
 
 @app.route('/outbox/', defaults={'page': 1})
@@ -55,15 +58,9 @@ def outbox(page):
 
     api.decode_and_format_outbox_messages(msgs_slice)
 
-    response = make_response(render_template("outbox.html",
+    return _no_cache(make_response(render_template("outbox.html",
             messages=msgs_slice, page=page, page_count=page_count,
-            mstart=mstart, mstop=mstop, mtotal=mtotal))
-
-    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
-    response.headers['Expires'] = 0  # force reload so messages marked read
-    response.headers['Pragma'] = 'no-cache'
-
-    return response
+            mstart=mstart, mstop=mstop, mtotal=mtotal)))
 
 
 @app.route('/viewinbox/<msgid>')
@@ -112,11 +109,5 @@ def addressbook(page):
 
     addrs_slice = pagination.get_slice()
 
-    response = make_response(render_template("addressbook.html",
-            addresses=addrs_slice, pagination=pagination))
-
-    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
-    response.headers['Expires'] = 0  # force reload so messages marked read
-    response.headers['Pragma'] = 'no-cache'
-
-    return response
+    return _no_cache(make_response(render_template("addressbook.html",
+            addresses=addrs_slice, pagination=pagination)))
