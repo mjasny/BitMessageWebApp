@@ -1,10 +1,10 @@
-{% from "_helpers.html" import render_outbox_page_nav %}
+{% from "_helpers.html" import render_pagination %}
 
 {% extends "base.html" %}
 
 {% block body %}
     <h1>Outbox</h1>
-    {{ render_outbox_page_nav(page, page_count, mstart, mstop, mtotal) }}
+    {{ render_pagination(pagination) }}
 
     <table id="status-table">
         <tr>
@@ -27,6 +27,6 @@
         {% endfor %}
     </table>
 
-    {{ render_outbox_page_nav(page, page_count, mstart, mstop, mtotal) }}
+    {{ render_pagination(pagination) }}
 
 {% endblock %}

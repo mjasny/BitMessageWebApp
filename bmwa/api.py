@@ -147,3 +147,8 @@ def send_message(to_address, from_address, subject, message):
     proxy = _get_proxy()
     proxy.sendMessage(to_address, from_address,
                 _b64encode(subject), _b64encode(message))
+
+def add_addressbookentry(new_address, new_address_label):
+    proxy = _get_proxy()
+    proxy.addAddressBookEntry(new_address, _b64encode(new_address_label))
+    

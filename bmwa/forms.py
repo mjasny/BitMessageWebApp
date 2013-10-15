@@ -30,7 +30,7 @@ class SendForm(Form):
     message = TextAreaField('Message', validators=[Required()])
 
 
-class AddressBookEntry(Form):
-    address = StringField('Address',
-                validators=[Required(), validate_bitmessage_address])
-    label = StringField('Label', validators=[Required()])
+class AddressbookForm(Form):
+    new_address = StringField('Address', validators=[Required(),
+                                            validate_bitmessage_address])
+    new_address_label = StringField('AddressLabel', validators=[Required()])

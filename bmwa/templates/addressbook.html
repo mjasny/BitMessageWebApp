@@ -4,12 +4,26 @@
 
 {% block body %}
     <h1>Addressbook</h1>
+
+    <form action="" method="post" name="adressbook">
+        {{ form.hidden_tag() }}
+        <table>
+            <tr>
+                <th>{{ form.new_address_label.label }}</th>
+                <td>{{ form.new_address_label }}</td>
+                <th>{{ form.new_address.label }}</th>
+                <td>{{ form.new_address }} <input type="submit" value="Add this Address"></td>
+            </tr>
+        </table>
+    </form>
+
     {{ render_pagination(pagination) }}
 
     <table id="addressbook-table">
         <tr>
             <th>Name or Label</th>
             <th>Address</th>
+            <th>Action</th>
         </tr>
 
         {% for address in addresses %}

@@ -2,7 +2,7 @@ from flask import abort, make_response, render_template, redirect
 
 from . import api
 from .core import app
-from .forms import SendForm
+from .forms import SendForm, AddressbookForm
 from .pagination import Pagination
 
 
@@ -46,21 +46,18 @@ def inbox(page):
 @app.route('/outbox/page/<int:page>')
 def outbox(page):
     messages = api.get_outbox_messages()
-    mtotal = len(messages)
 
-    page_count = 1 + mtotal // MSGS_PER_PAGE
-    if page < 1 or page > page_count:
+    try:
+        pagination = Pagination(page, messages, MSGS_PER_PAGE)
+    except IndexError:
         abort(404)  # return not found for pages outside range
 
-    mstart, mstop = (page - 1) * MSGS_PER_PAGE, page * MSGS_PER_PAGE
-    mstop = min(mstop, mtotal)
-    msgs_slice = messages[mstart: mstop]
+    msgs_slice = pagination.get_slice()
 
     api.decode_and_format_outbox_messages(msgs_slice)
 
     return _no_cache(make_response(render_template("outbox.html",
-            messages=msgs_slice, page=page, page_count=page_count,
-            mstart=mstart, mstop=mstop, mtotal=mtotal)))
+            messages=msgs_slice, pagination=pagination)))
 
 
 @app.route('/viewinbox/<msgid>')
@@ -96,11 +93,18 @@ def send():
     return render_template('send.html', form=form)
 
 
-@app.route('/addressbook', defaults={'page': 1})
+@app.route('/addressbook', defaults={'page': 1}, methods=['GET', 'POST'])
 @app.route('/addressbook/page/<int:page>')
 def addressbook(page):
     """View for Addressbook."""
     addresses = api.get_addressbook_addresses()
+
+    form = AddressbookForm()
+
+    if form.validate_on_submit():
+        api.add_addressbookentry(form.new_address.data, form.new_address_label.data)
+        return redirect('/addressbook')
+
 
     try:
         pagination = Pagination(page, addresses, ADDRS_PER_PAGE)
@@ -109,5 +113,6 @@ def addressbook(page):
 
     addrs_slice = pagination.get_slice()
 
+
     return _no_cache(make_response(render_template("addressbook.html",
-            addresses=addrs_slice, pagination=pagination)))
+            addresses=addrs_slice, pagination=pagination, form=form)))
