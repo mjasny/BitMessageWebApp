@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <h1>Addressbook Edit</h1>
+    <form action="" method="post" name="addressbook_edit">
+        {{ form.hidden_tag() }}
+        <table>
+            <tr>
+                <th>{{ form.old_label.label }}</th>
+                <td>{{ form.old_label(disabled=True, size=40) }}</td>
+                <th>{{ form.new_label.label }}</th>
+                <td>{{ form.new_label(size=40) }}</td>
+            </tr>
+            <tr>
+                <th>{{ form.old_address.label }}</th>
+                <td>{{ form.old_address(disabled=True, size=40) }}</td>
+                <th>{{ form.new_address.label }}</th>
+                <td>{{ form.new_address(size=40) }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><br><div align="right"><input type="submit" value="Save this Address"></div></td>
+            </tr>
+        </table>
+    </form>
+{% endblock %}
