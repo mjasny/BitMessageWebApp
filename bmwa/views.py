@@ -2,7 +2,7 @@ from flask import abort, make_response, render_template, redirect
 
 from . import api
 from .core import app
-from .forms import SendForm, AddressbookForm
+from .forms import SendForm, AddressbookForm, Addressbook_editForm, Addressbook_deleteForm
 from .pagination import Pagination
 
 
@@ -116,3 +116,49 @@ def addressbook(page):
 
     return _no_cache(make_response(render_template("addressbook.html",
             addresses=addrs_slice, pagination=pagination, form=form)))
+
+
+@app.route('/addressbook_edit/<address>', methods=['GET', 'POST'])
+def addressbook_edit(address):
+    form = Addressbook_editForm()
+    
+    addresses = api.get_addressbook_addresses()
+
+    for a in addresses:
+        if a['address'] == address:
+            label = a['label']
+            break   #if we have luck, we will save some time:)
+
+    form.old_label.data = label
+    form.new_label.data = label
+
+    form.old_address.data = address
+    form.new_address.data = address
+
+    if form.validate_on_submit():
+        form = Addressbook_editForm()
+        api.edit_addressbookentry(address_old=address, address_new=form.new_address.data, label_new=form.new_label.data)
+        return redirect('/addressbook')
+    
+    return render_template("addressbook_edit.html", form=form)
+
+
+@app.route('/addressbook_remove/<address>', methods=['GET', 'POST'])
+def addressbook_remove(address):
+    form = Addressbook_deleteForm()
+    
+    addresses = api.get_addressbook_addresses()
+
+    for a in addresses:
+        if a['address'] == address:
+            label = a['label']
+            break   #if we have luck, we will save some time:)
+
+    form.label.data = label
+    form.address.data = address
+
+    if form.validate_on_submit():
+        api.delete_addressbookentry(address=address)
+        return redirect('/addressbook')
+    
+    return render_template("addressbook_remove.html", form=form, label=label, address=address)

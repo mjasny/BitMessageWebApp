@@ -34,27 +34,3 @@
         </span>
     </div>
 {% endmacro %}
-
-{% macro render_outbox_page_nav(page, page_count, mstart, mstop, mtotal) %}
-    <div class="outbox-page-nav">
-        <span class="outbox-showing">
-            Showing {{ mstart + 1 }} to {{ mstop }} of {{ mtotal }}.
-        </span>
-        {% if page > 1 %}
-            <span class="outbox-first>">
-                <a href="/outbox">&laquo; first</a>
-            </span>
-            <span class="outbox-prev>">
-                <a href="/outbox/page/{{ page - 1 }}">&lt; prev</a>
-            </span>
-        {% endif %}
-        {% if page < page_count %}
-            <span class="outbox-next>">
-                <a href="/outbox/page/{{ page + 1 }}">next &gt;</a>
-            </span>
-            <span class="outbox-last>">
-                <a href="/outbox/page/{{ page_count }}">last &raquo;</a>
-            </span>
-        {% endif %}
-    </div>
-{% endmacro %}

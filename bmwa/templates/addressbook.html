@@ -12,11 +12,11 @@
                 <th>{{ form.new_address_label.label }}</th>
                 <td>{{ form.new_address_label }}</td>
                 <th>{{ form.new_address.label }}</th>
-                <td>{{ form.new_address }} <input type="submit" value="Add this Address"></td>
+                <td>{{ form.new_address(size=40) }} <input type="submit" value="Add this Address"></td>
             </tr>
         </table>
     </form>
-
+    <br>
     {{ render_pagination(pagination) }}
 
     <table id="addressbook-table">
@@ -30,6 +30,9 @@
             <tr>
                 <td>{{ address.label }}</td>
                 <td>{{ address.address }}</td>
+                <td><a href="{{ url_for('addressbook_edit', address=address.address) }}">Edit</a>
+                    <a href="{{ url_for('addressbook_remove', address=address.address) }}">Delete</a>
+                </td>
             </tr>
         {% endfor %}
     </table>
