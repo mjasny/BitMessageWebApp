@@ -7,6 +7,7 @@ from .pagination import Pagination
 
 
 MSGS_PER_PAGE = 20
+ADDRS_PER_PAGE = 30
 
 
 @app.route('/')
@@ -103,19 +104,16 @@ def send():
 def addressbook(page):
     """View for Addressbook."""
     addresses = api.get_addressbook_addresses()
-    atotal = len(addresses)
 
-    page_count = 1 + atotal // MSGS_PER_PAGE
-    if page < 1 or page > page_count:
+    try:
+        pagination = Pagination(page, addresses, ADDRS_PER_PAGE)
+    except IndexError:
         abort(404)  # return not found for pages outside range
 
-    astart, astop = (page - 1) * MSGS_PER_PAGE, page * MSGS_PER_PAGE
-    astop = min(astop, atotal)
-    addrsss_slice = addresses[astart: astop]
+    addrs_slice = pagination.get_slice()
 
     response = make_response(render_template("addressbook.html",
-            addresses=addrsss_slice, page=page, page_count=page_count,
-            astart=astart, astop=astop, atotal=atotal))
+            addresses=addrs_slice, pagination=pagination))
 
     response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
     response.headers['Expires'] = 0  # force reload so messages marked read

@@ -1,10 +1,10 @@
-{% from "_helpers.html" import render_addressbook_page_nav %}
+{% from "_helpers.html" import render_pagination %}
 
 {% extends "base.html" %}
 
 {% block body %}
     <h1>Addressbook</h1>
-    {{ render_addressbook_page_nav(page, page_count, astart, astop, atotal) }}
+    {{ render_pagination(pagination) }}
 
     <table id="addressbook-table">
         <tr>
@@ -20,6 +20,6 @@
         {% endfor %}
     </table>
 
-    {{ render_addressbook_page_nav(page, page_count, astart, astop, atotal) }}
-    
+    {{ render_pagination(pagination) }}
+
 {% endblock %}
