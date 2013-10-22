@@ -11,10 +11,10 @@
     <header>
         <nav id="main-nav">
             <ul>
-                <li><a href="{{ url_for('inbox') }}">Inbox</a></li>
-                <li><a href="{{ url_for('send') }}">Send</a></li>
-                <li><a href="{{ url_for('addressbook') }}">Addressbook</a></li>
-                <li><a href="{{ url_for('outbox') }}">Outbox</a></li>
+                <li><a href="{{ url_for('inbox') }}">{{ _('Inbox') }}</a></li>
+                <li><a href="{{ url_for('send') }}">{{ _('Send') }}</a></li>
+                <li><a href="{{ url_for('addressbook') }}">{{ _('Addressbook') }}</a></li>
+                <li><a href="{{ url_for('outbox') }}">{{ _('Outbox') }}</a></li>
             </ul>
         </nav>
     </header>
@@ -24,7 +24,7 @@
 
     <footer>
         <p><a href="https://github.com/Mattze96/BitMessageWebApp">
-                Project Web Page</a></p>
+                {{ _('Project Web Page') }}</a></p>
     </footer>
 
 </body>

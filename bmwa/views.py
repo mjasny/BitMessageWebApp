@@ -1,14 +1,23 @@
-from flask import abort, make_response, render_template, redirect
+from flask import abort, make_response, render_template, redirect, request
 
 from . import api
 from .core import app
 from .forms import (SendForm, AddressbookForm,
              Addressbook_editForm, Addressbook_deleteForm)
 from .pagination import Pagination
+from .core import babel
+from .config import LANGUAGES
+from flask.ext.babel import gettext
 
 
 MSGS_PER_PAGE = 20
 ADDRS_PER_PAGE = 30
+
+
+@babel.localeselector
+def get_locale():
+    #return 'en' #for testing
+    return request.accept_languages.best_match(LANGUAGES.keys())
 
 
 def _no_cache(response):

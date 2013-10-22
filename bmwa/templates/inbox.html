@@ -3,15 +3,15 @@
 {% extends "base.html" %}
 
 {% block body %}
-    <h1>Inbox</h1>
+    <h1>{{ _('Inbox') }}</h1>
     {{ render_pagination(pagination) }}
 
     <table id="inbox-table">
         <tr>
-            <th>Subject</th>
-            <th>To</th>
-            <th>From</th>
-            <th>Received</th>
+            <th>{{ _('Subject') }}</th>
+            <th>{{ _('To') }}</th>
+            <th>{{ _('From') }}</th>
+            <th>{{ _('Received') }}</th>
         </tr>
 
         {% for message in messages %}
