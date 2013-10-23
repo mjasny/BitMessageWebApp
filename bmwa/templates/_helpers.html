@@ -1,26 +1,26 @@
 {% macro render_pagination(pagination) %}
     <div class="pagination">
         <span class="pagination-showing">
-            Showing {{ pagination.start + 1 }} to {{ pagination.stop }} of
+            {{ _('Showing') }} {{ pagination.start + 1 }} {{ _('to') }} {{ pagination.stop }} {{ _('of') }}
             {{ pagination.item_count }}.
         </span>
         {% if pagination.has_prev %}
             <span class="pagination-first>">
-                <a href="{{ url_for_pagination(1) }}">&laquo; first</a>
+                <a href="{{ url_for_pagination(1) }}">&laquo; {{ _('first') }}</a>
             </span>
             <span class="pagination-prev>">
                 <a href="{{ url_for_pagination(pagination.page - 1) }}">
-                    &lt; prev</a>
+                    &lt; {{ _('prev') }}</a>
             </span>
         {% endif %}
         {% if pagination.has_next %}
             <span class="pagination-next>">
                 <a href="{{ url_for_pagination(pagination.page + 1) }}">
-                    next &gt;</a>
+                    {{ _('next') }} &gt;</a>
             </span>
             <span class="pagination-last>">
                 <a href="{{ url_for_pagination(pagination.page_count) }}">
-                    last &raquo;</a>
+                    {{ _('last') }} &raquo;</a>
             </span>
         {% endif %}
         <span class="pagination-nearby">

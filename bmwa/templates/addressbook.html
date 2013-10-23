@@ -3,7 +3,7 @@
 {% extends "base.html" %}
 
 {% block body %}
-    <h1>Addressbook</h1>
+    <h1>{{ _('Addressbook') }}</h1>
 
     <form action="" method="post" name="adressbook">
         {{ form.hidden_tag() }}
@@ -21,17 +21,17 @@
 
     <table id="addressbook-table">
         <tr>
-            <th>Name or Label</th>
-            <th>Address</th>
-            <th>Action</th>
+            <th>{{ _('Name or Label') }}</th>
+            <th>{{ _('Address') }}</th>
+            <th>{{ _('Action') }}</th>
         </tr>
 
         {% for address in addresses %}
             <tr>
                 <td>{{ address.label }}</td>
                 <td>{{ address.address }}</td>
-                <td><a href="{{ url_for('addressbook_edit', address=address.address) }}">Edit</a>
-                    <a href="{{ url_for('addressbook_remove', address=address.address) }}">Delete</a>
+                <td><a href="{{ url_for('addressbook_edit', address=address.address) }}">{{ _('Edit') }}</a>
+                    <a href="{{ url_for('addressbook_remove', address=address.address) }}">{{ _('Delete') }}</a>
                 </td>
             </tr>
         {% endfor %}

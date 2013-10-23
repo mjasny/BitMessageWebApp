@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block body %}
-    <h1>Addressbook Edit</h1>
+    <h1>{{ _('Addressbook Edit') }}</h1>
     <form action="" method="post" name="addressbook_edit">
         {{ form.hidden_tag() }}
         <table>
@@ -21,7 +21,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td><br><div align="right"><input type="submit" value="Save this Address"></div></td>
+                <td><br><div align="right"><input type="submit" value="{{ _('Save this Address') }}"></div></td>
             </tr>
         </table>
     </form>

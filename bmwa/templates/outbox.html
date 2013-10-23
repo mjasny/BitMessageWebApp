@@ -3,16 +3,16 @@
 {% extends "base.html" %}
 
 {% block body %}
-    <h1>Outbox</h1>
+    <h1>{{ _('Outbox') }}</h1>
     {{ render_pagination(pagination) }}
 
     <table id="status-table">
         <tr>
-            <th>Subject</th>
-            <th>To</th>
-            <th>From</th>
-            <th>LastAction</th>
-	    <th>Status</th>
+            <th>{{ _('Subject') }}</th>
+            <th>{{ _('To') }}</th>
+            <th>{{ _('From') }}</th>
+            <th>{{ _('LastAction') }}</th>
+	        <th>{{ _('Status') }}</th>
         </tr>
 
         {% for message in messages %}

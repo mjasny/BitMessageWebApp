@@ -1,19 +1,19 @@
 {% extends "base.html" %}
 
 {% block body %}
-    <h1>View Message</h1>
+    <h1>{{ _('View Message') }}</h1>
     <div id="message-view">
         <table>
             <tr>
-                <th>Subject:</th>
+                <th>{{ _('Subject') }}:</th>
                 <td>{{ message.subject }}</td>
             </tr>
             <tr>
-                <th>To:</th>
+                <th>{{ _('To') }}:</th>
                 <td>{{ message.toAddress }}</td>
             </tr>
             <tr>
-                <th>From:</th>
+                <th>{{ _('From') }}:</th>
                 <td>{{ message.fromAddress }}</td>
             </tr>
         </table>

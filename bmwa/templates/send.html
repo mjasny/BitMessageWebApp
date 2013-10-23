@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block body %}
-    <h1>Send Message</h1>
+    <h1>{{ _('Send Message') }}</h1>
     <form action="" method="post" name="send">
         {{ form.hidden_tag() }}
         <table>
@@ -21,6 +21,6 @@
         <div id="message-body">
             {{ form.message(cols="100", rows="20")}}
         </div>
-        <input type="submit" value="Send">
+        <input type="submit" value="{{ _('Send') }}">
     </form>
 {% endblock %}
