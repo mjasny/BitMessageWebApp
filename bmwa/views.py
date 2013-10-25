@@ -3,7 +3,7 @@ from flask import abort, make_response, render_template, redirect, request
 from . import api
 from .core import app
 from .forms import (SendForm, AddressbookForm,
-             Addressbook_editForm, Addressbook_deleteForm)
+             Addressbook_editForm, Addressbook_deleteForm, ViewForm)
 from .pagination import Pagination
 from .core import babel
 from .config import LANGUAGES
@@ -70,20 +70,33 @@ def outbox(page):
             messages=msgs_slice, pagination=pagination)))
 
 
-@app.route('/viewinbox/<msgid>')
+@app.route('/viewinbox/<msgid>', methods=['GET', 'POST'])
 def viewinbox(msgid):
     """View to display an inbox message."""
     message = api.get_inbox_message_by_id(msgid)
+    form = ViewForm()
+    viewhtml = True
+    if form.validate_on_submit():
+        if request.form['btn'] == gettext('ViewHTML'):
+            viewhtml = True
+        if request.form['btn'] == gettext('ViewNormal'):
+            viewhtml = False
+    return render_template("view.html", message=message, form=form, viewhtml=viewhtml)
 
-    return render_template("view.html", message=message)
 
-
-@app.route('/viewoutbox/<msgid>')
+@app.route('/viewoutbox/<msgid>', methods=['GET', 'POST'])
 def viewoutbox(msgid):
     """View to display an outbox message."""
     message = api.get_outbox_message_by_id(msgid)
+    form = ViewForm()
+    viewhtml = True
+    if form.validate_on_submit():
+        if request.form['btn'] == gettext('ViewHTML'):
+            viewhtml = True
+        if request.form['btn'] == gettext('ViewNormal'):
+            viewhtml = False
 
-    return render_template("view.html", message=message)
+    return render_template("view.html", message=message, form=form, viewhtml=viewhtml)
 
 
 @app.route('/send', methods=['GET', 'POST'])

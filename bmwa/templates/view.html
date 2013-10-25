@@ -17,9 +17,21 @@
                 <td>{{ message.fromAddress }}</td>
             </tr>
         </table>
-
-        <pre>
-{{ message.message | safe }}
-        </pre>
+        <br>
+        <form action="" method="post" name="checkbox">
+            {{ form.hidden_tag() }}
+            <table>
+                <tr>
+                    <td><input type="submit" name="btn" value="{{ _('ViewHTML') }}"> <input type="submit" name="btn"
+value="{{ _('ViewNormal') }}"></td>
+                </tr>
+            </table>
+        </form>
+        <br>
+        <pre>{% if viewhtml %}
+{{ message.message | wordwrap(width=150) }}
+            {% else %}
+{{ message.message | wordwrap(width=150) | safe }}
+            {% endif %}</pre>
     </div>
 {% endblock %}
