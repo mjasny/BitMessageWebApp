@@ -1,5 +1,6 @@
 from flask import abort, make_response, render_template, redirect, request
 
+from datetime import datetime
 from . import api
 from .core import app
 from .forms import (SendForm, AddressbookForm,
@@ -88,6 +89,8 @@ def viewinbox(msgid):
             return redirect('/send/inbox/reply/' + msgid)
         if request.form['btn'] == gettext('Redirect'):
             return redirect('/send/inbox/redirect/' + msgid)
+        if request.form['btn'] == gettext('Print'):
+            return redirect('/printus/inbox_message/'+msgid)
 
     return render_template("view.html", message=message, form=form, viewhtml=viewhtml)
 
@@ -103,6 +106,13 @@ def viewoutbox(msgid):
             viewhtml = True
         if request.form['btn'] == gettext('ViewNormal'):
             viewhtml = False
+        if request.form['btn'] == gettext('Delete'):
+            api.delete_message(msgid)
+            return redirect('/inbox')
+        if request.form['btn'] == gettext('Reply'):
+            return redirect('/send/inbox/reply/' + msgid)
+        if request.form['btn'] == gettext('Redirect'):
+            return redirect('/send/inbox/redirect/' + msgid)
 
     return render_template("view.html", message=message, form=form, viewhtml=viewhtml)
 
@@ -142,6 +152,27 @@ def send(source, action, msgid):
         form.to_address.choices.append([real_fromAddress, message['fromAddress']])
 
         form.subject.data = 'Re: ' + message['subject']
+
+    if action == 'redirect':
+        if source == 'inbox':
+            message = api.get_inbox_message_by_id(msgid)
+        if source == 'outbox':
+            message = api.get_outbox_message_by_id(msgid)
+
+        form.message.data = '\n\n\n--Redirected over BitMessageWebApp https://github.com/Mattze96/BitMessageWebApp--\n------------------------------------------------------\n'+message['message']
+     
+        #Get real Addresses not Labels, if not API Error in the Daemon, but not in the bmwa.
+        real_toAddress = None
+        for (k, v) in api.get_address_dict().items():
+            if v == message['toAddress']:
+                real_toAddress = k
+        #If Address not in Addressbook or Identitiesbook:
+        if real_toAddress == None:
+            real_toAddress = message['toAddress']        
+
+        form.from_address.choices.append([real_toAddress, message['toAddress']])
+
+        form.subject.data = 'Aw: ' + message['subject'] #Not sure if it's "AW"
 
     # Have to get addresses again because form validates against them.
     for (k, v) in sorted(api.get_identity_dict().items()):
@@ -237,4 +268,20 @@ def deletemessage(msgid):
     api.delete_message(msgid=msgid)
     
     return redirect('/inbox')
+    
+
+@app.route('/printus/<typus>/<data>')
+def printus(typus, data):
+    
+    if typus == 'inbox_message':
+        message = api.get_inbox_message_by_id(data)
+        text = '<b>To:</b> '+message['toAddress']
+        text += '<br><b>From:</b> '+message['fromAddress']
+        text += '<br><b>Subject:</b> '+message['subject']
+        text += '<br><b>Date sent:</b> ' +datetime.fromtimestamp(int(message['receivedTime'])).strftime('%Y-%m-%d %H:%M:%S')
+        text += '<br><hr><br>'
+        text += message['message'].replace('\n', '<br>')
+        return render_template("print.html", text=text)
+    return redirect('/inbox')
+
     
