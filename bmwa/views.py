@@ -275,13 +275,13 @@ def printus(typus, data):
     
     if typus == 'inbox_message':
         message = api.get_inbox_message_by_id(data)
-        text = '<b>To:</b> '+message['toAddress']
-        text += '<br><b>From:</b> '+message['fromAddress']
-        text += '<br><b>Subject:</b> '+message['subject']
-        text += '<br><b>Date sent:</b> ' +datetime.fromtimestamp(int(message['receivedTime'])).strftime('%Y-%m-%d %H:%M:%S')
-        text += '<br><hr><br>'
-        text += message['message'].replace('\n', '<br>')
-        return render_template("print.html", text=text)
+        header = '<b>To:</b> '+message['toAddress']
+        header += '<br><b>From:</b> '+message['fromAddress']
+        header += '<br><b>Subject:</b> '+message['subject']
+        header += '<br><b>Date sent:</b> ' +datetime.fromtimestamp(int(message['receivedTime'])).strftime('%Y-%m-%d %H:%M:%S')
+        header += '<br><hr><br>'
+        main = message['message']#.replace('\n', '<br>')
+        return render_template("print.html", header=header, main=main)
     return redirect('/inbox')
 
     
