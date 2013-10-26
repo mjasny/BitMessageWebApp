@@ -114,25 +114,24 @@ def send(source, action, msgid):
     form.from_address.choices = []
     form.to_address.choices = []
 
-
-    if (action == 'reply') and not (form.validate_on_submit()):
+    if action == 'reply':
         if source == 'inbox':
             message = api.get_inbox_message_by_id(msgid)
         if source == 'outbox':
             message = api.get_outbox_message_by_id(msgid)
 
-        form.message.data = '\n\n\n------------------------------------------------------\n'+message['message']
-        
+        form.message.data = '\n\n\n--Send over BitMessageWebApp https://github.com/Mattze96/BitMessageWebApp--\n------------------------------------------------------\n'+message['message']
+     
+        #Get real Addresses not Labels, if not API Error in the Daemon, but not in the bmwa.
         real_toAddress = None
         for (k, v) in api.get_address_dict().items():
             if v == message['toAddress']:
                 real_toAddress = k
-
         real_fromAddress = None
         for (k, v) in api.get_identity_dict().items():
             if v == message['fromAddress']:
                 real_fromAddress = k
-
+        #If Address not in Addressbook or Identitiesbook:
         if real_fromAddress == None:
             real_fromAddress = message['fromAddress']
         if real_toAddress == None:
@@ -152,6 +151,7 @@ def send(source, action, msgid):
         form.to_address.choices.append([k, v])
 
     if form.validate_on_submit():
+        form = SendForm()   #Needed because old values will be send.
         api.send_message(form.to_address.data, form.from_address.data,
                     form.subject.data, form.message.data)
         return redirect('/inbox')
