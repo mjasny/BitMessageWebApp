@@ -157,6 +157,11 @@ def delete_addressbookentry(address):
     proxy = _get_proxy()
     proxy.deleteAddressBookEntry(address)
 
+
 def edit_addressbookentry(address_old, address_new, label_new):
     delete_addressbookentry(address=address_old)
     add_addressbookentry(new_address=address_new, new_address_label=label_new)
+
+def delete_message(msgid):
+    proxy = _get_proxy()
+    proxy.trashMessage(msgid)

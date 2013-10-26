@@ -13,6 +13,7 @@
             <th>{{ _('To') }}</th>
             <th>{{ _('From') }}</th>
             <th>{{ _('Received') }}</th>
+            <th>{{ _('Action') }}</th>
         </tr>
 
         {% for message in messages %}
@@ -28,6 +29,7 @@
                 <td>{{ message.toAddress }}</td>
                 <td>{{ message.fromAddress }}</td>
                 <td>{{ message.received }}</td>
+                <td><a href="{{ url_for('deletemessage', msgid=message.msgid) }}">{{ _('Delete') }}</a></td>
             </tr>
         {% endfor %}
     </table>

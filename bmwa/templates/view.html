@@ -22,8 +22,13 @@
             {{ form.hidden_tag() }}
             <table>
                 <tr>
-                    <td><input type="submit" name="btn" value="{{ _('ViewHTML') }}"> <input type="submit" name="btn"
-value="{{ _('ViewNormal') }}"></td>
+                    <td><input type="submit" name="btn" value="{{ _('ViewHTML') }}"> 
+                        <input type="submit" name="btn" value="{{ _('ViewNormal') }}">
+                        <input type="submit" name="btn" value="{{ _('Reply') }}">
+                        <input type="submit" name="btn" value="{{ _('Redirect') }}">
+                        <input type="submit" name="btn" value="{{ _('Delete') }}">
+                        <input type="submit" name="btn" value="{{ _('Print') }}">
+                    </td>
                 </tr>
             </table>
         </form>

@@ -81,6 +81,14 @@ def viewinbox(msgid):
             viewhtml = True
         if request.form['btn'] == gettext('ViewNormal'):
             viewhtml = False
+        if request.form['btn'] == gettext('Delete'):
+            api.delete_message(msgid)
+            return redirect('/inbox')
+        if request.form['btn'] == gettext('Reply'):
+            return redirect('/send/inbox/reply/' + msgid)
+        if request.form['btn'] == gettext('Redirect'):
+            return redirect('/send/inbox/redirect/' + msgid)
+
     return render_template("view.html", message=message, form=form, viewhtml=viewhtml)
 
 
@@ -99,14 +107,49 @@ def viewoutbox(msgid):
     return render_template("view.html", message=message, form=form, viewhtml=viewhtml)
 
 
-@app.route('/send', methods=['GET', 'POST'])
-def send():
+@app.route('/send', defaults={'source': None, 'action': None, 'msgid': None}, methods=['GET', 'POST'])
+@app.route('/send/<source>/<action>/<msgid>', methods=['GET', 'POST'])
+def send(source, action, msgid):
     form = SendForm()
+    form.from_address.choices = []
+    form.to_address.choices = []
+
+
+    if (action == 'reply') and not (form.validate_on_submit()):
+        if source == 'inbox':
+            message = api.get_inbox_message_by_id(msgid)
+        if source == 'outbox':
+            message = api.get_outbox_message_by_id(msgid)
+
+        form.message.data = '\n\n\n------------------------------------------------------\n'+message['message']
+        
+        real_toAddress = None
+        for (k, v) in api.get_address_dict().items():
+            if v == message['toAddress']:
+                real_toAddress = k
+
+        real_fromAddress = None
+        for (k, v) in api.get_identity_dict().items():
+            if v == message['fromAddress']:
+                real_fromAddress = k
+
+        if real_fromAddress == None:
+            real_fromAddress = message['fromAddress']
+        if real_toAddress == None:
+            real_toAddress = message['toAddress']        
+
+
+        form.from_address.choices.append([real_toAddress, message['toAddress']])
+        form.to_address.choices.append([real_fromAddress, message['fromAddress']])
+
+        form.subject.data = 'Re: ' + message['subject']
+
     # Have to get addresses again because form validates against them.
-    form.from_address.choices = [(k, v) for
-                (k, v) in sorted(api.get_identity_dict().items())]
-    form.to_address.choices = [(k, v) for
-                (k, v) in sorted(api.get_address_dict().items())]
+    for (k, v) in sorted(api.get_identity_dict().items()):
+        form.from_address.choices.append([k, v]) 
+
+    for (k, v) in sorted(api.get_address_dict().items()):
+        form.to_address.choices.append([k, v])
 
     if form.validate_on_submit():
         api.send_message(form.to_address.data, form.from_address.data,
@@ -186,3 +229,12 @@ def addressbook_remove(address):
 
     return render_template("addressbook_remove.html",
                             form=form, label=label, address=address)
+
+
+@app.route('/deletemessage/<msgid>')
+def deletemessage(msgid):
+    
+    api.delete_message(msgid=msgid)
+    
+    return redirect('/inbox')
+    
