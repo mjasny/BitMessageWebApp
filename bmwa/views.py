@@ -199,9 +199,12 @@ def addressbook(page):
     form = AddressbookForm()
 
     if form.validate_on_submit():
-        api.add_addressbookentry(form.new_address.data,
-                                form.new_address_label.data)
-        return redirect('/addressbook')
+        if request.form['btn'] == gettext('Add this as Address'):
+            api.add_addressbookentry(form.new_address.data, form.new_address_label.data)
+            return redirect('/addressbook')
+        if request.form['btn'] == gettext('Add this as Chan'):
+            api.add_chan(form.new_address.data, form.new_address_label.data)
+            return redirect('/addressbook')
 
     try:
         pagination = Pagination(page, addresses, ADDRS_PER_PAGE)

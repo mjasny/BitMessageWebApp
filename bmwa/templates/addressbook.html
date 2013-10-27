@@ -4,7 +4,7 @@
 
 {% block body %}
     <h1>{{ _('Addressbook') }}</h1>
-
+    <div id="addressbook_view">
     <form action="" method="post" name="adressbook">
         {{ form.hidden_tag() }}
         <table>
@@ -12,7 +12,7 @@
                 <th>{{ form.new_address_label.label }}</th>
                 <td>{{ form.new_address_label }}</td>
                 <th>{{ form.new_address.label }}</th>
-                <td>{{ form.new_address(size=40) }} <input type="submit" value="{{ _('Add this Address') }}"></td>
+                <td>{{ form.new_address(size=40) }} <input type="submit" name="btn" value="{{ _('Add this as Address') }}"> <input type="submit" name="btn" value="{{ _('Add this as Chan') }}"></td>
             </tr>
         </table>
     </form>
@@ -36,7 +36,7 @@
             </tr>
         {% endfor %}
     </table>
-
+    </div>
     {{ render_pagination(pagination) }}
 
 {% endblock %}

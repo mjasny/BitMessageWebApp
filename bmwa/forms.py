@@ -32,8 +32,7 @@ class SendForm(Form):
 
 
 class AddressbookForm(Form):
-    new_address = StringField(gettext('Address'), validators=[Required(),
-                                            validate_bitmessage_address])
+    new_address = StringField(gettext('Address'), validators=[Required(),validate_bitmessage_address])
     new_address_label = StringField(gettext('AddressLabel'), validators=[Required()])
 
 

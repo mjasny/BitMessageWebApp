@@ -162,6 +162,12 @@ def edit_addressbookentry(address_old, address_new, label_new):
     delete_addressbookentry(address=address_old)
     add_addressbookentry(new_address=address_new, new_address_label=label_new)
 
+
+def add_chan(new_chan, new_chan_label):
+    proxy = _get_proxy()
+    print(proxy.joinChan(_b64encode(new_chan_label), new_chan))
+
+
 def delete_message(msgid):
     proxy = _get_proxy()
     proxy.trashMessage(msgid)
