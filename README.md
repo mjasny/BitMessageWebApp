@@ -1,8 +1,7 @@
-BitMessageWebApp
+#BitMessageWebApp
 ================
 
 A WebApp for a BitMessageDaemon running on a Server.
-
 
 
 Hello, I'm developing with tullyvey a WebApp for a BitMessageDaemon. This
@@ -17,11 +16,15 @@ project's status and issues.
 Chan-Name: bmc
 Chan-Address: BM-2cUoRzUeWh7sDz4iAozUUmB8nJq2Q4VRaN
 
+If you want to add some Code take a look at the development branch.
 
-Changelog:
-v0.03:
-	+Inbox is working, but needs some customiziation
-v0.02:
-	+Added Small menu, api test sucessfull
-v0.01:
-	+First Version, no features only testing.
+
+Working features:
+#German Translation (English native)
+#Inbox with Pagination
+#Delete Message directly from Inbox
+#Sending Messages to user and chans
+#Adding User and Chan Addresses to Addressbook
+#Modify and remove addressbook user-entries, chan-entries still have a bug.
+#Status of Message in Outbox and Reading them
+#Reply and Redirect Messages
