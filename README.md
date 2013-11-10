@@ -20,11 +20,11 @@ If you want to add some Code take a look at the development branch.
 
 
 Working features:
-#German Translation (English native)
-#Inbox with Pagination
-#Delete Message directly from Inbox
-#Sending Messages to user and chans
-#Adding User and Chan Addresses to Addressbook
-#Modify and remove addressbook user-entries, chan-entries still have a bug.
-#Status of Message in Outbox and Reading them
-#Reply and Redirect Messages
+*German Translation (English native)
+*Inbox with Pagination
+*Delete Message directly from Inbox
+*Sending Messages to user and chans
+*Adding User and Chan Addresses to Addressbook
+*Modify and remove addressbook user-entries, chan-entries still have a bug.
+*Status of Message in Outbox and Reading them
+*Reply and Redirect Messages
